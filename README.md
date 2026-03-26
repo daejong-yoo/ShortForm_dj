@@ -13,19 +13,10 @@
 
 ---
 
-```html
-<video src="./docs/videos/shortform-demo-19s.mp4"
-       controls
-       muted
-       playsinline
-       width="320">
-</video>
-```
+<p align="center">
+  <img src="https://drive.google.com/file/d/13my-3PgmFRw7utJJkQEpa3dSUhXTwJ7x/view" width="160">
+</p>
 
-### 영상 파일 위치
-
-* `docs/videos/shortform-demo-20s.mp4`
-* 
 ---
 
 ## 2. 목표
