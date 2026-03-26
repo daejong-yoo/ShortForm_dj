@@ -13,6 +13,21 @@
 
 ---
 
+```html
+<video src="./docs/videos/shortform-demo-19s.mp4"
+       controls
+       muted
+       playsinline
+       width="320">
+</video>
+```
+
+### 영상 파일 위치
+
+* `docs/videos/shortform-demo-20s.mp4`
+* 
+---
+
 ## 2. 목표
 
 ### 주요 목표
