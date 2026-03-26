@@ -1,72 +1,64 @@
 package com.djyoo.shortform.ui.feed
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.pager.VerticalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 import android.widget.FrameLayout
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 fun FeedScreen(
     state: FeedUiState,
     onAction: (FeedAction) -> Unit,
 ) {
-    val listState = rememberLazyListState()
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val pagerState = rememberPagerState(
+        initialPage = state.activeIndex,
+        pageCount = { state.videos.size },
+    )
 
     FeedLifecycleBridge(onAction = onAction)
-    FeedActiveIndexTracker(
-        listState = listState,
+    FeedActivePageTracker(
+        pagerState = pagerState,
         onActiveIndexChanged = { onAction(FeedAction.ActiveIndexChanged(it)) },
     )
 
-    LazyColumn(
-        state = listState,
+    LaunchedEffect(state.activeIndex, state.videos.size) {
+        if (state.videos.isNotEmpty() && pagerState.currentPage != state.activeIndex) {
+            pagerState.scrollToPage(state.activeIndex)
+        }
+    }
+
+    VerticalPager(
+        state = pagerState,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-    ) {
-        itemsIndexed(
-            items = state.videos,
-            key = { _, video -> video.id },
-        ) { index, video ->
-            val isActive = index == state.activeIndex
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(screenHeight)
-            ) {
-                if (isActive) {
-                    PlayerHost(
-                        videoId = video.id,
-                        onAction = onAction,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                } else {
-                    Box(modifier = Modifier.fillMaxSize())
-                }
+            .background(Color(0xFF2B2B2B)),
+        key = { page -> state.videos[page].id },
+    ) { page ->
+        val video = state.videos[page]
+        val isActive = page == state.activeIndex
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (isActive) {
+                PlayerHost(
+                    videoId = video.id,
+                    onAction = onAction,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
     }
@@ -111,29 +103,13 @@ private fun FeedLifecycleBridge(
 }
 
 @Composable
-@OptIn(FlowPreview::class)
-private fun FeedActiveIndexTracker(
-    listState: LazyListState,
+@OptIn(ExperimentalFoundationApi::class)
+private fun FeedActivePageTracker(
+    pagerState: androidx.compose.foundation.pager.PagerState,
     onActiveIndexChanged: (Int) -> Unit,
 ) {
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.isScrollInProgress }
-            .distinctUntilChanged()
-            .filter { isScrolling -> !isScrolling }
-            .debounce(120)
-            .map {
-                val layoutInfo = listState.layoutInfo
-                val viewportStart = layoutInfo.viewportStartOffset
-                val viewportEnd = layoutInfo.viewportEndOffset
-                val best = layoutInfo.visibleItemsInfo.maxByOrNull { item ->
-                    val itemStart = item.offset
-                    val itemEnd = item.offset + item.size
-                    val visibleStart = maxOf(itemStart, viewportStart)
-                    val visibleEnd = minOf(itemEnd, viewportEnd)
-                    maxOf(0, visibleEnd - visibleStart)
-                }
-                best?.index ?: 0
-            }
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.settledPage }
             .distinctUntilChanged()
             .collect { onActiveIndexChanged(it) }
     }
