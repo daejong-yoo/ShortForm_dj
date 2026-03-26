@@ -3,20 +3,34 @@ package com.djyoo.shortform.ui.feed
 import android.widget.FrameLayout
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
@@ -25,6 +39,9 @@ fun FeedScreen(
     state: FeedUiState,
     onAction: (FeedAction) -> Unit,
 ) {
+    var isOverlayVisible by remember { mutableStateOf(false) }
+    var overlayRequestId by remember { mutableStateOf(0) }
+
     val pagerState =
         rememberPagerState(
             initialPage = state.activeIndex,
@@ -41,6 +58,15 @@ fun FeedScreen(
         if (state.videos.isNotEmpty() && pagerState.currentPage != state.activeIndex) {
             pagerState.scrollToPage(state.activeIndex)
         }
+    }
+    LaunchedEffect(state.activeIndex) {
+        isOverlayVisible = false
+    }
+    LaunchedEffect(overlayRequestId) {
+        if (overlayRequestId == 0) return@LaunchedEffect
+        isOverlayVisible = true
+        delay(3_000)
+        isOverlayVisible = false
     }
 
     VerticalPager(
@@ -60,6 +86,38 @@ fun FeedScreen(
                     onAction = onAction,
                     modifier = Modifier.fillMaxSize(),
                 )
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null,
+                            ) {
+                                onAction(FeedAction.TogglePlayPauseRequested)
+                                overlayRequestId += 1
+                            },
+                )
+                if (isOverlayVisible) {
+                    Box(
+                        modifier =
+                            Modifier
+                                .align(Alignment.Center)
+                                .size(44.dp)
+                                .background(
+                                    color = Color.Black.copy(alpha = 0.45f),
+                                    shape = CircleShape,
+                                ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = if (state.isPlaying) "||" else "▶",
+                            color = Color.White,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                }
             }
         }
     }

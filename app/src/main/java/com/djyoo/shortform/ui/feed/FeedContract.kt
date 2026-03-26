@@ -20,6 +20,8 @@ sealed interface FeedAction {
 
     data object PauseRequested : FeedAction
 
+    data object TogglePlayPauseRequested : FeedAction
+
     data object AppForeground : FeedAction
 
     data object AppBackground : FeedAction

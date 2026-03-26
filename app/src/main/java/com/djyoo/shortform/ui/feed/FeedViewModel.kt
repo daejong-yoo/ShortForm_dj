@@ -51,6 +51,16 @@ class FeedViewModel(
                 _state.value = _state.value.copy(isPlaying = false)
                 playerController.pause()
             }
+            FeedAction.TogglePlayPauseRequested -> {
+                val isPlayingNow = _state.value.isPlaying
+                if (isPlayingNow) {
+                    _state.value = _state.value.copy(isPlaying = false)
+                    playerController.pause()
+                } else {
+                    _state.value = _state.value.copy(isPlaying = true)
+                    playerController.play()
+                }
+            }
             FeedAction.AppForeground -> playerController.onAppForeground()
             FeedAction.AppBackground -> playerController.onAppBackground()
         }
