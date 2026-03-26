@@ -1,0 +1,68 @@
+{
+  "videos": [
+    {
+      "id": "1",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+      "duration": 10,
+      "title": "Big Buck Bunny",
+      "preload": true
+    },
+    {
+      "id": "2",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+      "duration": 12,
+      "title": "Elephant Dream",
+      "preload": true
+    },
+    {
+      "id": "3",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/Sintel.jpg",
+      "duration": 15,
+      "title": "Sintel",
+      "preload": false
+    },
+    {
+      "id": "4",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
+      "duration": 15,
+      "title": "Tears of Steel",
+      "preload": false
+    },
+    {
+      "id": "5",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
+      "duration": 8,
+      "title": "For Bigger Blazes",
+      "preload": false
+    },
+    {
+      "id": "6",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg",
+      "duration": 9,
+      "title": "For Bigger Escapes",
+      "preload": false
+    },
+    {
+      "id": "7",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg",
+      "duration": 7,
+      "title": "For Bigger Fun",
+      "preload": false
+    },
+    {
+      "id": "8",
+      "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+      "thumbnailUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg",
+      "duration": 9,
+      "title": "For Bigger Joyrides",
+      "preload": false
+    }
+  ]
+}
