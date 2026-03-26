@@ -11,12 +11,14 @@ import com.djyoo.shortform.player.PlayerController
 fun FeedRoute(
     repository: VideoRepository,
     playerController: PlayerController,
-    viewModel: FeedViewModel = viewModel(
-        factory = FeedViewModel.Factory(
-            repository = repository,
-            playerController = playerController,
-        )
-    ),
+    viewModel: FeedViewModel =
+        viewModel(
+            factory =
+                FeedViewModel.Factory(
+                    repository = repository,
+                    playerController = playerController,
+                ),
+        ),
 ) {
     val state by viewModel.state.collectAsState()
     FeedScreen(
@@ -24,4 +26,3 @@ fun FeedRoute(
         onAction = viewModel::onAction,
     )
 }
-

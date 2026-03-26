@@ -31,8 +31,8 @@ class ExoPlayerController(
             playerView,
             ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            ),
         )
     }
 
@@ -41,12 +41,16 @@ class ExoPlayerController(
         parent.removeView(playerView)
     }
 
-    override fun prepare(url: String, nextUrl: String?) {
-        val mediaItems = buildList {
-            add(MediaItem.fromUri(url))
-            nextUrl?.let { add(MediaItem.fromUri(it)) }
-        }
-        exoPlayer.setMediaItems(mediaItems, /* resetPosition = */ true)
+    override fun prepare(
+        url: String,
+        nextUrl: String?,
+    ) {
+        val mediaItems =
+            buildList {
+                add(MediaItem.fromUri(url))
+                nextUrl?.let { add(MediaItem.fromUri(it)) }
+            }
+        exoPlayer.setMediaItems(mediaItems, true)
         exoPlayer.prepare()
     }
 
@@ -83,4 +87,3 @@ class ExoPlayerController(
         playerView.visibility = View.GONE
     }
 }
-

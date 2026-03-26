@@ -58,16 +58,18 @@ class FeedViewModel(
 
     private fun loadVideos() {
         loadJob?.cancel()
-        loadJob = viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
-            val videos = repository.getVideos()
-            _state.value = _state.value.copy(
-                videos = videos,
-                activeIndex = 0,
-                isLoading = false,
-            )
-            requestPlaybackFor(_state.value)
-        }
+        loadJob =
+            viewModelScope.launch {
+                _state.value = _state.value.copy(isLoading = true)
+                val videos = repository.getVideos()
+                _state.value =
+                    _state.value.copy(
+                        videos = videos,
+                        activeIndex = 0,
+                        isLoading = false,
+                    )
+                requestPlaybackFor(_state.value)
+            }
     }
 
     private fun requestPlaybackFor(state: FeedUiState) {
@@ -102,4 +104,3 @@ class FeedViewModel(
         }
     }
 }
-

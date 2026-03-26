@@ -1,9 +1,9 @@
 package com.djyoo.shortform.data
 
 import android.content.Context
+import com.djyoo.shortform.domain.model.Video
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import com.djyoo.shortform.domain.model.Video
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -49,4 +49,3 @@ class AssetVideoRepository(
         private const val ASSET_FILE_NAME = "videos.json"
     }
 }
-

@@ -5,4 +5,3 @@ import com.djyoo.shortform.domain.model.Video
 interface VideoRepository {
     suspend fun getVideos(): List<Video>
 }
-

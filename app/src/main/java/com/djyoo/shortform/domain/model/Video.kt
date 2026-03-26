@@ -8,4 +8,3 @@ data class Video(
     val title: String?,
     val preload: Boolean,
 )
-
