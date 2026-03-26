@@ -13,6 +13,12 @@
 
 ---
 
+<img src="videos/shortform_deomo_17s.gif" width="250" height="400">|
+| :---: | :---: | :---: | :---: |
+| **숏폼 데모** | 
+
+---
+
 <div align="center">
   <video src="https://github.com/user-attachments/assets/a246ee4e-74df-4270-91ec-6d1e2ae14650" width="100%" autoplay loop muted playsinline></video>
 </div>
