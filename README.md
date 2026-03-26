@@ -13,9 +13,9 @@
 
 ---
 
-<p align="center">
-  <img src="https://drive.google.com/file/d/13my-3PgmFRw7utJJkQEpa3dSUhXTwJ7x/view" width="160">
-</p>
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/a246ee4e-74df-4270-91ec-6d1e2ae14650" width="100%" autoplay loop muted playsinline></video>
+</div>
 
 ---
 
